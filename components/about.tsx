@@ -4,7 +4,7 @@ export default function About() {
   return (
     <div className={styles.aboutus}>
       <p>
-        It's great to meet again here. <br />
+        It's great to meet here again. <br />
         I hope that you and every sister gathered here can let go of the
         pressure.
         <br />
