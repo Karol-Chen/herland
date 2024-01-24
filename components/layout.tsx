@@ -17,7 +17,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         ></Image>
         <Navigation />
       </div>
-      <main
+      <div
         style={{
           backgroundColor: "#f0ebeb",
           height: "60vh",
@@ -25,7 +25,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         }}
       >
         {children}
-      </main>
+      </div>
       <div
         style={{
           backgroundColor: "#EB9B78",

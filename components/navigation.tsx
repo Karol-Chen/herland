@@ -2,19 +2,12 @@ import Link from "next/link";
 import Image from "next/image";
 import herlandLogo from "../public/cropped-herland.png";
 import herlandBanner from "../public/banner.jpg";
+import styles from "../styles/components.module.css";
 
 export default function Navigation() {
   return (
     <div style={{ position: "relative" }}>
-      {/* <Image
-        src={herlandBanner}
-        alt="banner"
-        layout="fill"
-        objectFit="cover"
-        quality={100}
-        style={{ position: "absolute", zIndex: -1 }}
-      ></Image> */}
-      <ul>
+      <ul className={styles.navigation}>
         <Link href="/">
           <Image
             src={herlandLogo}
@@ -22,13 +15,14 @@ export default function Navigation() {
             layout="raw"
             quality={100}
             priority={true}
-            style={{ width: "17%", height: "auto" }}
+            style={{ width: "50%", height: "auto" }}
           ></Image>
         </Link>
-        <br></br>
-        <Link href="/aboutus">about us</Link>
-        <br></br>
-        <Link href="/forums/forums">forums</Link>
+        <div className={styles.navigation_right}>
+          <Link href="/aboutus">about us</Link>
+          <Link href="/forums/forums">forums</Link>
+          <Link href="#">sign up</Link>
+        </div>
         {/* <li>contact us</li> */}
       </ul>
     </div>
