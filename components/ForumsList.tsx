@@ -5,31 +5,31 @@ export default function ForumList() {
   const ForumList = [
     {
       id: 1,
-      name: "Pinned",
+      title: "Pinned",
     },
     {
       id: 2,
-      name: "Her Assistance",
+      title: "Her Assistance",
     },
     {
       id: 3,
-      name: "Her Creations",
+      title: "Her Creations",
     },
     {
       id: 4,
-      name: "Her History",
+      title: "Her History",
     },
     {
       id: 5,
-      name: "Her Life",
+      title: "Her Life",
     },
     {
       id: 6,
-      name: "Her Reading",
+      title: "Her Reading",
     },
     {
       id: 7,
-      name: "test",
+      title: "test",
     },
   ];
   const [forumList, setForumList] = useState(ForumList);
@@ -40,6 +40,8 @@ export default function ForumList() {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/forums`)
         .then((res) => res.json())
         .then((data) => {
+          // console.log(data);
+          console.log(typeof data);
           console.log(data);
           setForumList(data);
         });
@@ -49,7 +51,7 @@ export default function ForumList() {
   }, []);
   return (
     <div>
-      {ForumList?.map((forum) => (
+      {forumList?.map((forum) => (
         <Forum key={forum.id} forum={forum} />
       ))}
     </div>

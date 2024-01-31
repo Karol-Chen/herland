@@ -2,20 +2,17 @@
 
 const getConnection = require("../config/connection");
 
-async function getFroums() {
+async function getForums() {
   let connection;
   try {
     connection = await getConnection();
     console.log("you are in data/forums.ts");
     const [rows] = await connection.execute("SELECT * FROM forum");
-    console.log(rows);
     return rows;
   } catch (error) {
     console.error("Error fetching forums:", error);
-    throw error; // re-throw the error so it can be handled by the caller
-  } finally {
-    if (connection) connection.release();
+    throw error;
   }
 }
 
-module.exports = getFroums;
+module.exports = getForums;
