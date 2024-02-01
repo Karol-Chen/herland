@@ -1,5 +1,6 @@
 import Forum from "./Forum";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function ForumList() {
   const ForumList = [
@@ -17,7 +18,7 @@ export default function ForumList() {
     },
     {
       id: 4,
-      title: "Her History",
+      title: "Herstory",
     },
     {
       id: 5,
@@ -33,6 +34,7 @@ export default function ForumList() {
     },
   ];
   const [forumList, setForumList] = useState(ForumList);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     console.log("you are in useEffect");
@@ -40,20 +42,32 @@ export default function ForumList() {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/forums`)
         .then((res) => res.json())
         .then((data) => {
-          // console.log(data);
-          console.log(typeof data);
-          console.log(data);
           setForumList(data);
+          setLoading(false);
         });
     }
 
     getData();
   }, []);
-  return (
-    <div>
-      {forumList?.map((forum) => (
-        <Forum key={forum.id} forum={forum} />
-      ))}
-    </div>
-  );
+
+  function formatTitleForUrl(title: string) {
+    return title.replace(/\s/g, "").toLowerCase();
+  }
+
+  if (loading) {
+    return <div>Loading...</div>;
+  } else {
+    return (
+      <div>
+        {forumList?.map((forum) => (
+          <Link
+            href={"/forums/" + formatTitleForUrl(forum.title)}
+            key={forum.id}
+          >
+            <Forum key={forum.id} forum={forum} />
+          </Link>
+        ))}
+      </div>
+    );
+  }
 }
