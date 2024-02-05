@@ -16,4 +16,18 @@ async function getUsers() {
   }
 }
 
-module.exports = getUsers;
+async function addUser({ username, email, password }) {
+  const connection = await getConnection();
+  try {
+    const [rows] = await connection.execute(
+      "INSERT INTO user (username,email,invt_code,password) VALUES (?,?,?,?)",
+      [username, email, password]
+    );
+    return rows;
+  } catch (error) {
+    console.error("Error adding user:", error);
+    throw error;
+  }
+}
+
+module.exports = { getUsers, addUser };
