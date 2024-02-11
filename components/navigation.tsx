@@ -21,7 +21,7 @@ export default function Navigation() {
         <div className={styles.navigation_right}>
           <Link href="/aboutus">about us</Link>
           <Link href="/forums/forums">forums</Link>
-          <Link href="#">sign up</Link>
+          <Link href="/signup">sign up</Link>
         </div>
         {/* <li>contact us</li> */}
       </ul>

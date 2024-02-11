@@ -18,11 +18,14 @@ async function getUsers() {
 
 async function addUser({ username, email, password }) {
   const connection = await getConnection();
+  console.log("connection status");
   try {
+    console.log("before insert");
     const [rows] = await connection.execute(
-      "INSERT INTO user (username,email,invt_code,password) VALUES (?,?,?,?)",
+      "INSERT INTO user (username,email,password) VALUES (?,?,?)",
       [username, email, password]
     );
+    console.log("after insert");
     return rows;
   } catch (error) {
     console.error("Error adding user:", error);

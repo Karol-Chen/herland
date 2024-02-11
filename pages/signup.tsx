@@ -1,7 +1,7 @@
 import Layout from "../components/layout";
 require("dotenv").config();
 
-export default function Registration() {
+export default function SignUp() {
   function handleSubmit(event) {
     return alert("You have registered successfully");
   }
