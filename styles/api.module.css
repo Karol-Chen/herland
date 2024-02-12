@@ -1,0 +1,97 @@
+.signInBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  /* display: grid;
+  place-items: center; */
+}
+
+.logo {
+  width: 12vw;
+  height: 7vh;
+  /* display: inline-block; */
+  margin-bottom: 5.86vh;
+  text-align: center;
+  /* transform: translateX(-50%); */
+}
+
+.signInForm {
+  display: block;
+  width: 497px;
+}
+
+.buttonBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  padding: 0.75rem 1rem;
+  margin-right: 10px;
+  margin-left: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #ffffff;
+  background-color: #b95f46;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnWhite {
+  padding: 0.75rem 1rem;
+  margin-right: 10px;
+  margin-left: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #50553c;
+  background-color: #fff;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.button:hover {
+  background-color: #894e3e;
+}
+
+.button:active {
+  transform: translateY(2px);
+}
+
+.formBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+  color: #b95f46;
+}
+
+.formBox input {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fgpwLink {
+  color: #b95f46;
+  text-decoration: none;
+}

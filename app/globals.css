@@ -25,4 +25,9 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  font-family: "adobe-clean", sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-y: hidden;
 }
