@@ -115,13 +115,20 @@
   font-weight: 400;
   /* line-height: 500; */
   text-transform: uppercase;
-  color: #ffffff;
+  /* color: #ffffff; */
   border: none;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
   justify-content: center;
+  padding-left: 10px;
+}
+
+.formBox input:focus {
+  outline: none;
+  /* background-color: #985441; */
+  /* color: #b95f46; */
 }
 
 .formBox input:nth-child(1)::placeholder {
@@ -154,4 +161,5 @@
 
 .btnLarge {
   background-color: #b95f46;
+  color: #fff;
 }

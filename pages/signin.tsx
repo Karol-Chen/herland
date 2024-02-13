@@ -12,11 +12,6 @@ export default function SignIn() {
     <div className={styles.signInPage}>
       {/* <img src={BgImage} alt="background image" className={styles.bgImage} />
        */}
-      <Image
-        src={BgImage}
-        alt="background image"
-        style={{ position: "absolute", zIndex: -1 }}
-      />
 
       <div className={styles.signInBox}>
         <div className={styles.logo}>
