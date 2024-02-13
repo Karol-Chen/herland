@@ -1,3 +1,10 @@
+.signInPage {
+  background-image: url(../public/Background.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: Lato;
+}
+
 .signInBox {
   display: flex;
   justify-content: center;
@@ -9,10 +16,10 @@
 }
 
 .logo {
-  width: 12vw;
-  height: 7vh;
+  width: 234px;
+  height: 75.36px;
   /* display: inline-block; */
-  margin-bottom: 5.86vh;
+  margin-bottom: 63.32px;
   text-align: center;
   /* transform: translateX(-50%); */
 }
@@ -26,10 +33,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: nowrap;
+  gap: 65px;
 }
 
 .button {
-  padding: 0.75rem 1rem;
+  /* padding: 22.5px 50px; */
+  height: 45px;
+  width: 100px;
   margin-right: 10px;
   margin-left: 10px;
   font-size: 1rem;
@@ -44,8 +55,25 @@
   transition: all 0.2s;
 }
 
+.btnRed {
+  height: 45px;
+  width: 100px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #ffffff;
+  background-color: #b95f46;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 10px;
+}
+
 .btnWhite {
-  padding: 0.75rem 1rem;
+  height: 45px;
+  width: 100px;
   margin-right: 10px;
   margin-left: 10px;
   font-size: 1rem;
@@ -58,6 +86,7 @@
   border-radius: 0.3rem;
   cursor: pointer;
   transition: all 0.2s;
+  border-radius: 10px;
 }
 
 .button:hover {
@@ -69,29 +98,60 @@
 }
 
 .formBox {
+  width: 497px;
+  height: 294.68px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 2rem;
+  /* padding: 2rem; */
   color: #b95f46;
 }
 
 .formBox input {
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1;
+  width: 100%;
+  height: 50px;
+  font-size: 1.7rem;
+  font-weight: 400;
+  /* line-height: 500; */
   text-transform: uppercase;
   color: #ffffff;
   border: none;
-  border-radius: 0.3rem;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  justify-content: center;
+}
+
+.formBox input:nth-child(1)::placeholder {
+  display: block;
+  background-image: url("../public/user-icon.svg");
+  background-repeat: no-repeat;
+  background-position: 5px;
+  padding-left: 40px;
+  color: #b95f46;
+}
+
+.formBox input:nth-child(3)::placeholder {
+  display: block;
+  background-image: url("../public/password-icon.svg");
+  background-repeat: no-repeat;
+  background-position: 5px;
+  padding-left: 40px;
+  color: #b95f46;
 }
 
 .fgpwLink {
   color: #b95f46;
   text-decoration: none;
+  text-align: right;
+  display: block;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.btnLarge {
+  background-color: #b95f46;
 }

@@ -1,13 +1,15 @@
 import herlandLogo from "../public/cropped-herland.png";
 // import { ReactComponent as BgImage } from "../public/Background.svg";
 import BgImage from "../public/Background.svg";
+import userIcon from "../public/userIcon.svg";
+import passwordIcon from "../public/passwordIcon.svg";
 import logo from "../public/Logo.svg";
 import Image from "next/image";
 import styles from "../styles/api.module.css";
 import Link from "next/link";
 export default function SignIn() {
   return (
-    <div>
+    <div className={styles.signInPage}>
       {/* <img src={BgImage} alt="background image" className={styles.bgImage} />
        */}
       <Image
@@ -22,19 +24,18 @@ export default function SignIn() {
         </div>
         <div className={styles.signInFrom}>
           <div className={styles.buttonBox}>
-            <button className={styles.button}>Sign In</button>
+            <button className={styles.btnRed}>Sign In</button>
             <button className={styles.btnWhite}>Register</button>
           </div>
           <form className={styles.formBox}>
-            <input type="text" placeholder="username" />
+            <input type="text" placeholder={"username or email"} />
             <br />
             <input type="password" placeholder="password" />
-            <br />
             <Link href="#" className={styles.fgpwLink}>
               Forget Password?
             </Link>
             <br />
-            <input className={styles.button} type="submit" value="Sign In" />
+            <input className={styles.btnLarge} type="submit" value="Sign In" />
           </form>
         </div>
       </div>
