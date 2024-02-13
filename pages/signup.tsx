@@ -57,7 +57,7 @@ export default function SignUp() {
             <input type="password" placeholder="password" />
             <input type="password" placeholder="confirm password" />
             <Link href="#" className={styles.fgpwLink}>
-              Invitation Code
+              Get Invitation Code
             </Link>
             <input className={styles.btnLarge} type="submit" value="Register" />
           </form>
