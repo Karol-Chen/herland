@@ -7,7 +7,34 @@ import logo from "../public/Logo.svg";
 import Image from "next/image";
 import styles from "../styles/signin.module.css";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 export default function SignIn() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const data = {
+      email: email,
+      password: password,
+    };
+    console.log(data);
+    const res = await fetch("/api/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (res.ok) {
+      router.push("/");
+    } else {
+      console.error("Error adding user:", res.statusText);
+    }
+  }
   return (
     <div className={styles.signInPage}>
       {/* <img src={BgImage} alt="background image" className={styles.bgImage} />
@@ -26,9 +53,17 @@ export default function SignIn() {
               <p>Register</p>
             </Link>
           </div>
-          <form className={styles.formBox}>
-            <input type="text" placeholder={"username or email"} />
-            <input type="password" placeholder="password" />
+          <form className={styles.formBox} onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder={"email"}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <Link href="#" className={styles.fgpwLink}>
               Forget Password?
             </Link>

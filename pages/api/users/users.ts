@@ -13,9 +13,9 @@ export default async function handler(req, res) {
     try {
       console.log("you are in pages/api/users.ts");
       console.log(req.body);
-      const { username, email, invt_code, password } = req.body;
+      const { email, invt_code, password } = req.body;
       //************need to add the logic to check the invt_code
-      const users = await addUser({ username, email, password });
+      const users = await addUser({ email, password });
       res.status(200).json(users);
     } catch (error) {
       res.status(500).json({ error: error.message });
