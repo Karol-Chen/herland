@@ -7,7 +7,8 @@ export async function checkCredentials(email, password) {
     console.log("you are in auth");
     const connection = await getConnection();
     const users = await connection.execute(
-      "SELECT * FROM user WHERE email='" + email + "'"
+      "SELECT * FROM user WHERE email=(?)",
+      [email]
     );
     const user = users[0][0];
     console.log(user);
