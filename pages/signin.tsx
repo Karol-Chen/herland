@@ -13,26 +13,34 @@ export default function SignIn() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const data = {
-      email: email,
-      password: password,
-    };
-    console.log(data);
-    const res = await fetch("/api/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    try {
+      const data = {
+        email: email,
+        password: password,
+      };
+      console.log(data);
+      const res = await fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    if (res.ok) {
-      router.push("/");
-    } else {
-      console.error("Error adding user:", res.statusText);
+      if (res.ok) {
+        router.push("/");
+      } else {
+        console.error("Error adding user:", res.statusText);
+        const errorData = await res.json();
+        setError(errorData.error);
+      }
+    } catch (error) {
+      console.log(error);
+      setError(error);
     }
   }
   return (
@@ -53,15 +61,16 @@ export default function SignIn() {
               <p>Register</p>
             </Link>
           </div>
+          <p className={styles.error}>{error}</p>
           <form className={styles.formBox} onSubmit={handleSubmit}>
             <input
               type="text"
-              placeholder={"email"}
+              placeholder={"EMAIL"}
               onChange={(e) => setEmail(e.target.value)}
             />
             <input
               type="password"
-              placeholder="password"
+              placeholder="PASSWORD"
               onChange={(e) => setPassword(e.target.value)}
             />
             <Link href="#" className={styles.fgpwLink}>

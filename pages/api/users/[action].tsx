@@ -1,5 +1,6 @@
 // pages/api/user/login.js
 import { checkCredentials, createUser } from "../../../lib/auth";
+import checkEmailFormat from "../../../helper";
 
 export default async function handler(req, res) {
   const { action } = req.query;
@@ -9,31 +10,61 @@ export default async function handler(req, res) {
   if (action === "login" && req.method === "POST") {
     try {
       const { email, password } = req.body;
+      if (!email || !password) {
+        res.status(400).json({ error: "Email or password is missing" });
+        return;
+      }
+      if (password.length < 8) {
+        res
+          .status(400)
+          .json({ error: "Password should be at least 8 characters long" });
+        return;
+      }
+      if (!checkEmailFormat(email)) {
+        res.status(400).json({ error: "Please enter a valid email address." });
+        return;
+      }
       const valid = await checkCredentials(email, password); // Check the credentials
       if (valid) {
         // If the credentials are valid, send a success response
         res.status(200).json({ status: "success" });
       } else {
         // If the credentials are not valid, send an error response
-        res.status(401).json({ status: "error", error: "Invalid credentials" });
+        res.status(401).json({
+          status: "error",
+          error: "Incorrect email or password.",
+        });
       }
     } catch (error) {
       console.error("Error checking credentials:", error);
-      throw error;
+      res.status(500).json({ error: error.message });
     }
   } else if (action === "signup" && req.method === "POST") {
-    const { email, password } = req.body;
-    const user = await createUser(email, password); // Create a new user
-
-    if (user) {
-      // If the user is created successfully, send a success response
-      res.status(200).json({ status: "success" });
-    } else {
-      // If the user is not created, send an error response
-      res.status(500).json({ status: "error", error: "Failed to create user" });
+    const { email, password, invtCode } = req.body;
+    if (!invtCode) {
+      res.status(400).json({ error: "Please enter the invitation code." });
+      return;
     }
-  } else {
-    // If the request method is not POST, or the action is not recognized, send an error response
-    res.status(405).json({ status: "error", error: "Method not allowed" });
+    if (!email || !password) {
+      res.status(400).json({ error: "Email or password is missing" });
+      return;
+    }
+    if (password.length < 8) {
+      res
+        .status(400)
+        .json({ error: "Password should be at least 8 characters long" });
+      return;
+    }
+    if (!checkEmailFormat(email)) {
+      res.status(400).json({ error: "Please enter a valid email address." });
+      return;
+    }
+    try {
+      const user = await createUser(email, password, invtCode);
+      res.status(200).json(user);
+    } catch (error) {
+      console.error("Error adding user:", error);
+      res.status(500).json({ error: error.message });
+    }
   }
 }
