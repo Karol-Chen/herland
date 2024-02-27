@@ -11,8 +11,6 @@ async function getUsers() {
   } catch (error) {
     console.error("Error fetching users:", error);
     throw error;
-  } finally {
-    if (connection) connection.release();
   }
 }
 

@@ -5,11 +5,11 @@ export default function Forum({ forum }) {
     <div>
       <Image
         src={forum.img ? forum.img : forum_default}
-        alt={forum.title}
+        alt={forum.post_title}
         width={50}
         height={50}
       />
-      {forum.title} {forum.topic_num} {forum.reply_num}
+      {forum.post_title}
     </div>
   );
 }
