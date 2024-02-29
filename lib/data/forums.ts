@@ -50,5 +50,38 @@ async function getPostById(id: string) {
     throw error;
   }
 }
+
+async function getRepliesByParentId(parentId) {
+  let connection;
+  try {
+    connection = await getConnection();
+    const [rows] = await connection.execute(
+      "SELECT * FROM wp_posts WHERE post_parent=(?) AND post_status='publish';",
+      [parentId]
+    );
+    return rows;
+  } catch (error) {
+    console.error("Error fetching replies from forum:", error);
+    throw error;
+  }
+}
+
+async function getPostAndRepliesByForumId(slug: string) {
+  let connection;
+  try {
+    const topic = await getPostFromForum(slug);
+    const replies = await getRepliesByParentId(topic[0].ID);
+    return { topic, replies };
+  } catch (error) {
+    console.error("Error fetching posts from forum:", error);
+    throw error;
+  }
+}
 // module.exports = { getForums, getPostFromForum };
-export { getForums, getPostFromForum, getPostById };
+export {
+  getForums,
+  getPostFromForum,
+  getPostById,
+  getRepliesByParentId,
+  getPostAndRepliesByForumId,
+};

@@ -31,4 +31,18 @@ async function addUser({ email, password }) {
   }
 }
 
-module.exports = { getUsers, addUser };
+async function getUserById(id) {
+  const connection = await getConnection();
+  try {
+    const [rows] = await connection.execute(
+      "SELECT * FROM wp_users WHERE id = ?",
+      [id]
+    );
+    return rows[0];
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  }
+}
+
+module.exports = { getUsers, addUser, getUserById };

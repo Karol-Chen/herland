@@ -1,11 +1,14 @@
 import { useRouter } from "next/router";
 import Layout from "../../../components/layout";
 import { useState, useEffect } from "react";
-import { set } from "firebase/database";
+import DOMPurify from "dompurify";
+import Replies from "@/components/replies";
 
 export default function PostPage() {
   const router = useRouter();
   const { title, postId } = router.query;
+  // console.log(typeof postId, postId, "postId");
+  // console.log(typeof title, title, "title");
   const [post, setPost] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -24,15 +27,20 @@ export default function PostPage() {
     }
   }, [postId, title]);
 
+  if (loading) return <div>Loading...</div>;
+
   return (
-    <div>
-      <Layout>
-        <div>
-          <h1>{post && post.post_title}</h1>
-          <p>{post && post.post_content}</p>
-        </div>
-      </Layout>
-      {/* Render your post data here */}
-    </div>
+    <Layout>
+      <div>
+        <h1>{post && post.post_title}</h1>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(post && post.post_content),
+          }}
+        />
+        <br></br>
+        <Replies postId={postId} title={title} />
+      </div>
+    </Layout>
   );
 }
