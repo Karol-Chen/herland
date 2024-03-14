@@ -10,10 +10,6 @@ export default function TopicNumOfForum({ title }: { title: string }) {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/forums/${title}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(
-            "**************************************************",
-            data
-          );
           SetTopicNum(data.length);
         });
     }
