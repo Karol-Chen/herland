@@ -1,6 +1,5 @@
 import { getPostById } from "@/lib/data/forums";
 import { getTranslatedTitle } from "@/helper";
-import { error } from "console";
 
 export default async function handler(req, res) {
   try {
@@ -11,8 +10,7 @@ export default async function handler(req, res) {
       console.log(post, "post");
       res.status(200).json(post);
     }
-  } catch {
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
-  return null;
 }

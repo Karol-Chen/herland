@@ -15,5 +15,4 @@ export default async function handler(req, res) {
       res.status(500).json({ error: "Error fetching posts from forum" });
     }
   }
-  return null;
 }

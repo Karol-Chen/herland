@@ -13,10 +13,11 @@ export default function PostPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    function getPostById(postId) {
+    async function getPostById(postId) {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/forums/${title}/${postId}`)
         .then((res) => res.json())
         .then((data) => {
+          console.log("you are in the post page");
           console.log(data, "data");
           setPost(data);
           setLoading(false);
@@ -38,7 +39,7 @@ export default function PostPage() {
             __html: DOMPurify.sanitize(post && post.post_content),
           }}
         />
-        <br></br>
+        <br />
         <Replies postId={postId} title={title} />
       </div>
     </Layout>

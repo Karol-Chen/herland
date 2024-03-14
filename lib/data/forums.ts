@@ -77,6 +77,18 @@ async function getPostAndRepliesByForumId(slug: string) {
     throw error;
   }
 }
+
+async function getAllPostsByForumId() {
+  let connection;
+  try {
+    connection = await getConnection();
+    const [rows] = await connection.execute("");
+    return rows;
+  } catch (error) {
+    console.log("Error fetching posts from forum:", error);
+    throw error;
+  }
+}
 // module.exports = { getForums, getPostFromForum };
 export {
   getForums,
