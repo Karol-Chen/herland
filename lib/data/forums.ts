@@ -78,22 +78,27 @@ async function getPostAndRepliesByForumId(slug: string) {
   }
 }
 
-async function getAllPostsByForumId() {
+async function getAllRepliesByForumId(forumId: number, sort: string) {
   let connection;
   try {
     connection = await getConnection();
-    const [rows] = await connection.execute("");
+    const order = sort === "desc" ? "DESC" : "ASC";
+    const [rows] = await connection.execute(
+      `SELECT * FROM wp_posts WHERE post_parent IN (SELECT ID FROM wp_posts WHERE post_parent=(?)) AND post_status='publish' ORDER BY post_date ${order};`,
+      [forumId]
+    );
     return rows;
   } catch (error) {
     console.log("Error fetching posts from forum:", error);
     throw error;
   }
 }
-// module.exports = { getForums, getPostFromForum };
+
 export {
   getForums,
   getPostFromForum,
   getPostById,
   getRepliesByParentId,
   getPostAndRepliesByForumId,
+  getAllRepliesByForumId,
 };

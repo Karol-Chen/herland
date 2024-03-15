@@ -24,12 +24,10 @@ export default async function handler(req, res) {
         res.status(400).json({ error: "Please enter a valid email address." });
         return;
       }
-      const valid = await checkCredentials(email, password); // Check the credentials
+      const valid = await checkCredentials(email, password);
       if (valid) {
-        // If the credentials are valid, send a success response
         res.status(200).json({ status: "success" });
       } else {
-        // If the credentials are not valid, send an error response
         res.status(401).json({
           status: "error",
           error: "Incorrect email or password.",

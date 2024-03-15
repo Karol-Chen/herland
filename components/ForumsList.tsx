@@ -5,6 +5,8 @@ import { get } from "http";
 import { getEnglishTitle } from "./../helper";
 import ReplyNumOfForum from "./ReplyNumOfForum";
 import TopicNumOfForum from "./TopicNumOfForum";
+import { LatestUpdateTimeOfForum } from "./LatestUpdateTimeOfForum";
+import { LatestUpdateUserOfForum } from "./LatestUpdateUserOfForum";
 export default function ForumList() {
   const [forumList, setForumList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,9 +49,9 @@ export default function ForumList() {
               <TopicNumOfForum
                 title={formatTitleForUrl(getEnglishTitle(forum.post_title))}
               />
-              <ReplyNumOfForum
-                title={formatTitleForUrl(getEnglishTitle(forum.post_title))}
-              />
+              <ReplyNumOfForum forumId={forum.ID} />
+              <LatestUpdateTimeOfForum forumId={forum.ID} />
+              <LatestUpdateUserOfForum forumId={forum.ID} />
             </div>
           );
         })}
