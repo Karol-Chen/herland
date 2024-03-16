@@ -22,10 +22,6 @@ export default function TopicNumOfForum({ title }: { title: string }) {
   if (loading) {
     return <div>Loading...</div>;
   } else {
-    return (
-      <div>
-        <p>{topicNum}</p>
-      </div>
-    );
+    return <div>{topicNum}</div>;
   }
 }

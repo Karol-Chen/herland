@@ -20,10 +20,6 @@ export default function ReplyNumOfForum({ forumId }) {
   if (loading) {
     return <div>Loading...</div>;
   } else {
-    return (
-      <div>
-        <p>{replies.length}</p>
-      </div>
-    );
+    return <div>{replies.length}</div>;
   }
 }

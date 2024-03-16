@@ -1,21 +1,26 @@
-const getConnection = require("../config/connection");
+const connectToDb = require("../config/connection");
+import { getLatestUpdatedPostByForumId } from "./forums";
 // import {getConnection} from "../config/connection";
 
 console.log("you are in data/users.ts");
 
 async function getUsers() {
-  const connection = await getConnection();
+  const pool = await connectToDb();
+  const connection = await pool.getConnection();
   try {
     const [rows] = await connection.execute("SELECT * FROM user");
     return rows;
   } catch (error) {
     console.error("Error fetching users:", error);
     throw error;
+  } finally {
+    if (connection) connection.release();
   }
 }
 
 async function addUser({ email, password }) {
-  const connection = await getConnection();
+  const pool = await connectToDb();
+  const connection = await pool.getConnection();
   console.log("connection status");
   try {
     console.log("before insert");
@@ -28,11 +33,15 @@ async function addUser({ email, password }) {
   } catch (error) {
     console.error("Error adding user:", error);
     throw error;
+  } finally {
+    if (connection) connection.release();
   }
 }
 
 async function getUserById(id) {
-  const connection = await getConnection();
+  const pool = await connectToDb();
+  const connection = await pool.getConnection();
+  console.log("you are in getUserById", id);
   try {
     const [rows] = await connection.execute(
       "SELECT * FROM wp_users WHERE id = ?",
@@ -42,7 +51,24 @@ async function getUserById(id) {
   } catch (error) {
     console.error("Error fetching user:", error);
     throw error;
+  } finally {
+    if (connection) connection.release();
   }
 }
 
-module.exports = { getUsers, addUser, getUserById };
+export default async function getLatestUserByForumId(forumId) {
+  const pool = await connectToDb();
+  const connection = await pool.getConnection();
+  try {
+    const post = await getLatestUpdatedPostByForumId(forumId);
+    const user = await getUserById(post.post_author);
+    return user;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  } finally {
+    if (connection) connection.release();
+  }
+}
+
+export { getUsers, addUser, getUserById, getLatestUserByForumId };
