@@ -52,7 +52,7 @@ export default function ForumPage() {
         </p>
         <p>
           Last updated by
-          <LatestUpdateUserOfForum forumId={titleId} />{" "}
+          <LatestUpdateUserOfForum forumId={titleId} />
           <LatestUpdateTimeOfForum forumId={titleId} />
         </p>
         <SearchBar />
