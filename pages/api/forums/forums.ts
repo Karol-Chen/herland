@@ -4,8 +4,6 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
       const forums = await getForums();
-      console.log("you are in pages/api/forums.ts", forums);
-      console.log(forums);
       res.status(200).json(forums);
     } catch (error: any) {
       console.log(error.message);

@@ -11,8 +11,6 @@ export default async function handler(req, res) {
   }
   if (req.method === "POST") {
     try {
-      console.log("you are in pages/api/users.ts");
-      console.log(req.body);
       const { email, invt_code, password } = req.body;
       //************need to add the logic to check the invt_code
       const users = await addUser({ email, password });

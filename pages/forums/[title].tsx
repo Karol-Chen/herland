@@ -12,7 +12,6 @@ import { LatestUpdateUserOfForum } from "@/components/LatestUpdateUserOfForum";
 export default function ForumPage() {
   const router = useRouter();
   const { title } = router.query;
-  console.log(title);
   const titleToId = {
     pinned: 226,
     herstory: 146,

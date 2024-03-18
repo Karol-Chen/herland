@@ -13,7 +13,6 @@ export default function ForumList() {
   const [topicsNum, SetTopicsNum] = useState(0);
 
   useEffect(() => {
-    console.log("you are in useEffect");
     async function getData() {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/forums/forums`)
         .then((res) => res.json())

@@ -22,7 +22,6 @@ export default function SignIn() {
         email: email,
         password: password,
       };
-      console.log(data);
       const res = await fetch("/api/users/login", {
         method: "POST",
         headers: {

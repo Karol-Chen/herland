@@ -2,13 +2,11 @@ const connectToDb = require("../config/connection");
 import { getLatestUpdatedPostByForumId } from "./forums";
 // import {getConnection} from "../config/connection";
 
-console.log("you are in data/users.ts");
-
 async function getUsers() {
   const pool = await connectToDb();
   const connection = await pool.getConnection();
   try {
-    const [rows] = await connection.execute("SELECT * FROM user");
+    const [rows] = await pool.execute("SELECT * FROM user");
     return rows;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -21,14 +19,11 @@ async function getUsers() {
 async function addUser({ email, password }) {
   const pool = await connectToDb();
   const connection = await pool.getConnection();
-  console.log("connection status");
   try {
-    console.log("before insert");
-    const [rows] = await connection.execute(
+    const [rows] = await pool.execute(
       "INSERT INTO user (email,password) VALUES (?,?)",
       [email, password]
     );
-    console.log("after insert");
     return rows;
   } catch (error) {
     console.error("Error adding user:", error);
@@ -41,12 +36,10 @@ async function addUser({ email, password }) {
 async function getUserById(id) {
   const pool = await connectToDb();
   const connection = await pool.getConnection();
-  console.log("you are in getUserById", id);
   try {
-    const [rows] = await connection.execute(
-      "SELECT * FROM wp_users WHERE id = ?",
-      [id]
-    );
+    const [rows] = await pool.execute("SELECT * FROM wp_users WHERE id = ?", [
+      id,
+    ]);
     return rows[0];
   } catch (error) {
     console.error("Error fetching user:", error);

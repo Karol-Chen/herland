@@ -8,7 +8,6 @@ export function LatestUpdateUserOfForum({ forumId }) {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/${forumId}/latestuser`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           setLatestUser(data);
         });
     }

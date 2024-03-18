@@ -7,6 +7,9 @@ import PostCard from "@/components/Posts/PostCard";
 export default function PostPage() {
   const router = useRouter();
   const { title, postId } = router.query;
+  console.log("title and postId: ", title, postId);
+  console.log(typeof postId, "postId type");
+  console.log(typeof title, "title type");
   const [startedUser, setStartedUser] = useState("");
   const [participatedUser, setParticipatedUser] = useState(0);
   const [replyNum, setReplyNum] = useState(0);
@@ -28,7 +31,6 @@ export default function PostPage() {
           setReplyNum(data.repliesNum);
           setLastUpdateUser(data.latestUser);
           setLastUpdateTime(data.latestTime);
-          console.log(data);
         });
     }
 
@@ -47,9 +49,9 @@ export default function PostPage() {
             </h1>
           </div>
         )}
-        <PostCard postId={postId} title={title} />
+        {postId && title && <PostCard postId={postId} title={title} />}
         <br />
-        <Replies postId={postId} title={title} />
+        {postId && title && <Replies postId={postId} title={title} />}
       </div>
     </Layout>
   );

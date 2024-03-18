@@ -9,8 +9,6 @@ export default function PostCard({ postId, title }) {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/forums/${title}/${postId}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log("you are in the post page");
-          console.log(data, "data");
           setPost(data);
           setLoading(false);
         });

@@ -10,7 +10,6 @@ export default function Topic({ post, forum }) {
 
   useEffect(() => {
     //fetch data
-    console.log(post.ID, forum);
     function getTopicLevelData() {
       fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/forums/${forum}/${post.ID}/topicleveldata`

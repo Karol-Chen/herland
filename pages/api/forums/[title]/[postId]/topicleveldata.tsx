@@ -7,6 +7,10 @@ export default async function handler(req, res) {
         "you are in pages/api/forums/[title]/[postId]/topicleveldata.tsx"
       );
       const { title, postId } = req.query;
+      console.log(postId, "postId in topicleveldata api");
+      if (!title || !postId) {
+        return res.status(400).json({ error: "Missing title or postId" });
+      }
       const { startUser, partiNum, repliesNum, latestUser, latestTime } =
         await getTopicLevelData(postId);
       res

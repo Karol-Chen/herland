@@ -67,12 +67,16 @@ async function getAllPostsByForumId(forumId, sort) {
 async function getPostById(id: string) {
   let connection;
   try {
+    console.log(id, "id");
     const pool = await connectToDb();
     connection = await pool.getConnection();
     const [rows] = await pool.execute(
-      "SELECT * FROM wp_posts WHERE ID = (?) AND post_status='publish'",
+      "SELECT * FROM wp_posts WHERE ID = (?);",
       [id]
     );
+    if (!rows[0]) {
+      throw new Error("No post found with this id");
+    }
     return rows[0];
   } catch (error) {
     console.log(error.message);
@@ -89,7 +93,7 @@ async function getRepliesByParentId(parentId) {
     const pool = await connectToDb();
     connection = await pool.getConnection();
     const [rows] = await pool.execute(
-      "SELECT * FROM wp_posts WHERE post_parent=(?);",
+      "SELECT * FROM wp_posts WHERE post_parent=(?) AND post_status='publish';",
       [parentId]
     );
     return rows;
@@ -207,7 +211,7 @@ async function getAllParticipantsByTopicId(id) {
 
 async function getTopicLevelData(id) {
   try {
-    console.log("you are in getTopicLevelData", id);
+    console.log("id in getTopicLevelData", id);
     const pool = await connectToDb();
     const connection = await pool.getConnection();
     const post = await getPostById(id);
@@ -227,9 +231,11 @@ async function getTopicLevelData(id) {
   }
 }
 
-async function getPostLevelData(id) {
+async function getPostLevelData(postId) {
   try {
     //do something
+    const pool = await connectToDb();
+    const;
   } catch (error) {
     console.error("Error fetching posts from forum:", error);
     throw error;

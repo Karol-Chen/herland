@@ -55,11 +55,9 @@ export default function SignUp() {
         body: JSON.stringify(data),
       });
       if (res.ok) {
-        console.log("res", res);
         router.push("/signin");
       } else {
         const errorData = await res.json();
-        console.log("errorData", errorData);
         setError(errorData.error);
       }
       // else {

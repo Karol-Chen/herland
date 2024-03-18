@@ -16,10 +16,8 @@ export async function checkCredentials(email, password) {
       [email]
     );
     const user = users[0][0];
-    console.log(user);
     if (!user) return false;
     const valid = await bcrypt.compare(password, user.user_pass);
-    console.log(valid, "valid");
     return valid;
   } catch (error) {
     console.error("Error checking credentials:", error);

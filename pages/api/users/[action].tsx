@@ -4,8 +4,6 @@ import checkEmailFormat from "../../../helper";
 
 export default async function handler(req, res) {
   const { action } = req.query;
-  console.log(req.query, "req.query");
-  console.log(action, "action");
 
   if (action === "login" && req.method === "POST") {
     try {
