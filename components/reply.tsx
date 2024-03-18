@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import DOMPurify from "dompurify";
 
-export default function Reply({ reply }) {
+export default function Reply({ postId, title }) {
   return (
     <div>
       <div

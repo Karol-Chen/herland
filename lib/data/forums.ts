@@ -235,7 +235,9 @@ async function getPostLevelData(postId) {
   try {
     //do something
     const pool = await connectToDb();
-    const;
+    const post = await getPostById(postId);
+    const user = await getUserById(post.post_author);
+    return { post, user };
   } catch (error) {
     console.error("Error fetching posts from forum:", error);
     throw error;
@@ -251,4 +253,5 @@ export {
   getAllRepliesByForumId,
   getLatestUpdatedPostByForumId,
   getTopicLevelData,
+  getPostLevelData,
 };

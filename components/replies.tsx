@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { use, useEffect, useState } from "react";
 import Reply from "./reply";
+import PostCard from "./Posts/PostCard";
 export default function Replies({
   postId,
   title,
@@ -36,7 +37,7 @@ export default function Replies({
     <div>
       {replies &&
         replies.map((reply) => {
-          return <Reply key={reply?.ID} reply={reply} />;
+          return <PostCard key={reply?.ID} title={title} postId={reply.ID} />;
         })}
     </div>
   );
