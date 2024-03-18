@@ -69,9 +69,10 @@ async function getPostById(id: string) {
   try {
     const pool = await connectToDb();
     connection = await pool.getConnection();
-    const [rows] = await pool.execute("SELECT * FROM wp_posts WHERE ID = (?)", [
-      id,
-    ]);
+    const [rows] = await pool.execute(
+      "SELECT * FROM wp_posts WHERE ID = (?) AND post_status='publish'",
+      [id]
+    );
     return rows[0];
   } catch (error) {
     console.log(error.message);
@@ -88,7 +89,7 @@ async function getRepliesByParentId(parentId) {
     const pool = await connectToDb();
     connection = await pool.getConnection();
     const [rows] = await pool.execute(
-      "SELECT * FROM wp_posts WHERE post_parent=(?) AND post_status='publish';",
+      "SELECT * FROM wp_posts WHERE post_parent=(?);",
       [parentId]
     );
     return rows;
@@ -220,6 +221,15 @@ async function getTopicLevelData(id) {
     const latestTime = latestPost.post_modified;
 
     return { startUser, partiNum, repliesNum, latestUser, latestTime };
+  } catch (error) {
+    console.error("Error fetching posts from forum:", error);
+    throw error;
+  }
+}
+
+async function getPostLevelData(id) {
+  try {
+    //do something
   } catch (error) {
     console.error("Error fetching posts from forum:", error);
     throw error;

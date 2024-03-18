@@ -1,44 +1,53 @@
 import { useRouter } from "next/router";
 import Layout from "../../../components/layout";
 import { useState, useEffect } from "react";
-import DOMPurify from "dompurify";
 import Replies from "@/components/replies";
+import PostCard from "@/components/Posts/PostCard";
 
 export default function PostPage() {
   const router = useRouter();
   const { title, postId } = router.query;
-  // console.log(typeof postId, postId, "postId");
-  // console.log(typeof title, title, "title");
-  const [post, setPost] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [startedUser, setStartedUser] = useState("");
+  const [participatedUser, setParticipatedUser] = useState(0);
+  const [replyNum, setReplyNum] = useState(0);
+  const [lastUpdateUser, setLastUpdateUser] = useState(null);
+  const [lastUpdateTime, setLastUpdateTime] = useState("");
+  const [data, setData] = useState(false);
 
   useEffect(() => {
-    async function getPostById(postId) {
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/forums/${title}/${postId}`)
+    //fetch data
+    function getTopicLevelData() {
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/forums/${title}/${postId}/topicleveldata`
+      )
         .then((res) => res.json())
         .then((data) => {
-          console.log("you are in the post page");
-          console.log(data, "data");
-          setPost(data);
-          setLoading(false);
+          setData(data);
+          setStartedUser(data.startUser);
+          setParticipatedUser(data.partiNum);
+          setReplyNum(data.repliesNum);
+          setLastUpdateUser(data.latestUser);
+          setLastUpdateTime(data.latestTime);
+          console.log(data);
         });
     }
-    if (postId) {
-      getPostById(postId);
-    }
-  }, [postId, title]);
 
-  if (loading) return <div>Loading...</div>;
+    getTopicLevelData();
+  }, [postId, title]);
 
   return (
     <Layout>
       <div>
-        <h1>{post && post.post_title}</h1>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(post && post.post_content),
-          }}
-        />
+        {data && (
+          <div>
+            <h1>
+              This topic contains {replyNum} replies, {participatedUser}{" "}
+              participants. Last updated by {lastUpdateUser?.user_nicename}{" "}
+              {lastUpdateTime}
+            </h1>
+          </div>
+        )}
+        <PostCard postId={postId} title={title} />
         <br />
         <Replies postId={postId} title={title} />
       </div>

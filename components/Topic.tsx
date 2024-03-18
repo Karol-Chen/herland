@@ -23,13 +23,6 @@ export default function Topic({ post, forum }) {
           setReplyNum(data.repliesNum);
           setLastUpdateUser(data.latestUser);
           setLastUpdateTime(data.latestTime);
-          console.log(
-            data.startUser,
-            data.partiNum,
-            data.repliesNum,
-            data.latestUser,
-            data.latestTime
-          );
         });
     }
 
