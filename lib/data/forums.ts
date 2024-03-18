@@ -2,13 +2,14 @@
 
 // const getConnection = require("../config/connection");
 const connectToDb = require("../config/connection");
+import { getUserById } from "./users";
 
 async function getForums() {
   let connection;
   try {
     const pool = await connectToDb();
     connection = await pool.getConnection();
-    let [rows] = await connection.execute(
+    let [rows] = await pool.execute(
       "SELECT * FROM wp_posts WHERE post_type = 'forum' AND post_status = 'publish'"
     );
     let pinned = rows.filter((row) => row.post_title === "*置顶*");
@@ -29,7 +30,7 @@ async function getPostFromForum(slug) {
   try {
     const pool = await connectToDb();
     connection = await pool.getConnection();
-    let [rows] = await connection.execute(
+    let [rows] = await pool.execute(
       "SELECT * FROM wp_posts WHERE post_parent = (SELECT ID FROM wp_posts WHERE post_title = ? AND post_type = 'forum') AND post_status='publish'",
       [slug]
     );
@@ -49,7 +50,7 @@ async function getAllPostsByForumId(forumId, sort) {
     const pool = await connectToDb();
     connection = await pool.getConnection();
     const order = sort === "desc" ? "DESC" : "ASC";
-    const [rows] = await connection.execute(
+    const [rows] = await pool.execute(
       `SELECT * FROM wp_posts WHERE post_parent = (?) AND post_status='publish' ORDER BY post_date ${order};`,
       [forumId]
     );
@@ -68,10 +69,9 @@ async function getPostById(id: string) {
   try {
     const pool = await connectToDb();
     connection = await pool.getConnection();
-    const [rows] = await connection.execute(
-      "SELECT * FROM wp_posts WHERE ID = (?)",
-      [id]
-    );
+    const [rows] = await pool.execute("SELECT * FROM wp_posts WHERE ID = (?)", [
+      id,
+    ]);
     return rows[0];
   } catch (error) {
     console.log(error.message);
@@ -87,7 +87,7 @@ async function getRepliesByParentId(parentId) {
   try {
     const pool = await connectToDb();
     connection = await pool.getConnection();
-    const [rows] = await connection.execute(
+    const [rows] = await pool.execute(
       "SELECT * FROM wp_posts WHERE post_parent=(?) AND post_status='publish';",
       [parentId]
     );
@@ -123,7 +123,7 @@ async function getAllRepliesByForumId(forumId: number, sort: string) {
     const pool = await connectToDb();
     connection = await pool.getConnection();
     const order = sort === "desc" ? "DESC" : "ASC";
-    const [rows] = await connection.execute(
+    const [rows] = await pool.execute(
       `SELECT * FROM wp_posts WHERE post_parent IN (SELECT ID FROM wp_posts WHERE post_parent=(?)) AND post_status='publish' ORDER BY post_date ${order};`,
       [forumId]
     );
@@ -142,7 +142,7 @@ async function getLatestUpdatedPostByForumId(forumId: number) {
   try {
     const pool = await connectToDb();
     connection = await pool.getConnection();
-    const [rows] = await connection.execute(
+    const [rows] = await pool.execute(
       `SELECT * FROM wp_posts WHERE post_parent IN (SELECT ID FROM wp_posts WHERE post_parent=(?)) AND post_status='publish' ORDER BY post_date DESC LIMIT 1;`,
       [forumId]
     );
@@ -163,6 +163,69 @@ async function getLatestUpdatedPostByForumId(forumId: number) {
   }
 }
 
+async function getLatestPostByTopicId(id) {
+  try {
+    const pool = await connectToDb();
+    const connection = await pool.getConnection();
+    const [rows] = await pool.execute(
+      `SELECT * FROM wp_posts WHERE post_parent = ? AND post_status='publish' ORDER BY post_date DESC LIMIT 1;`,
+      [id]
+    );
+    const post = await getPostById(id);
+
+    if (!rows[0] || post.post_modified > rows[0].post_modified) {
+      return post;
+    } else {
+      return rows[0];
+    }
+  } catch (error) {
+    console.error("Error fetching posts from forum:", error);
+    throw error;
+  }
+}
+
+async function getAllParticipantsByTopicId(id) {
+  try {
+    const pool = await connectToDb();
+    const [rows] = await pool.execute(
+      `SELECT post_author, COUNT(*) AS post_count
+      FROM (
+          SELECT * FROM wp_posts WHERE ID = ? AND post_status='publish'
+          UNION
+          SELECT * FROM wp_posts WHERE post_parent = ? AND post_status='publish'
+      ) AS combined
+      GROUP BY post_author;`,
+      [id, id]
+    );
+    return rows;
+  } catch (error) {
+    console.error("Error fetching posts from forum:", error);
+    throw error;
+  }
+}
+
+async function getTopicLevelData(id) {
+  try {
+    console.log("you are in getTopicLevelData", id);
+    const pool = await connectToDb();
+    const connection = await pool.getConnection();
+    const post = await getPostById(id);
+    const participants = await getAllParticipantsByTopicId(id);
+    const partiNum = participants.length;
+    const replies = await getRepliesByParentId(id);
+    const repliesNum = replies.length;
+    const startUser = await getUserById(post.post_author);
+    const latestPost = await getLatestPostByTopicId(id);
+    const latestUser = await getUserById(latestPost.post_author);
+    const latestTime = latestPost.post_modified;
+
+    return { startUser, partiNum, repliesNum, latestUser, latestTime };
+  } catch (error) {
+    console.error("Error fetching posts from forum:", error);
+    throw error;
+  }
+}
+
 export {
   getForums,
   getPostFromForum,
@@ -171,4 +234,5 @@ export {
   getPostAndRepliesByForumId,
   getAllRepliesByForumId,
   getLatestUpdatedPostByForumId,
+  getTopicLevelData,
 };

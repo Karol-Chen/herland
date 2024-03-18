@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import Topic from "./Topic";
 export default function Topics({
   posts,
   forum,
@@ -10,9 +11,7 @@ export default function Topics({
     <ul>
       {posts &&
         posts.map((post: any) => (
-          <li key={post.id}>
-            <Link href={`/forums/${forum}/${post.ID}`}>{post.post_title}</Link>
-          </li>
+          <Topic key={post.ID} post={post} forum={forum} />
         ))}
     </ul>
   );

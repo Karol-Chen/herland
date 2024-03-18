@@ -57,7 +57,6 @@ export default function ForumPage() {
         </p>
         <SearchBar />
         {posts?.length > 0 && <Topics posts={posts} forum={title} />}
-        <div>newtopic</div>
       </Layout>
     );
   }
