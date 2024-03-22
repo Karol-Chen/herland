@@ -14,7 +14,9 @@ export default function AllPosts() {
 
   useEffect(() => {
     async function getAllPosts() {
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`)
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/posts?sort=desc&sortBy=post_date`
+      )
         .then((res) => res.json())
         .then((data) => {
           setPosts(data);
