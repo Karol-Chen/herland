@@ -244,6 +244,22 @@ async function getPostLevelData(postId) {
   }
 }
 
+async function getAllPosts(sort: string, sortBy: string) {
+  try {
+    const pool = await connectToDb();
+    const order = sort === "desc" ? "DESC" : "ASC";
+    const sortByColumn = sortBy === "title" ? "post_title" : "post_date";
+
+    const [rows] = await pool.execute(
+      `SELECT * FROM wp_posts WHERE post_type = 'topic' AND post_status='publish' ORDER BY ${sortByColumn} ${order};`
+    );
+    return rows;
+  } catch (error) {
+    console.error("Error fetching posts from getAllPosts:", error);
+    throw error;
+  }
+}
+
 export {
   getForums,
   getPostFromForum,
@@ -254,4 +270,5 @@ export {
   getLatestUpdatedPostByForumId,
   getTopicLevelData,
   getPostLevelData,
+  getAllPosts,
 };
