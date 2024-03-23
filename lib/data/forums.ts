@@ -260,6 +260,19 @@ async function getAllPosts(sort: string, sortBy: string) {
   }
 }
 
+async function getAllPostsBySearchTerm(searchTerm: string) {
+  try {
+    const pool = await connectToDb();
+    const [rows] = await pool.execute(
+      `SELECT * FROM wp_posts WHERE post_title LIKE '%${searchTerm}%' OR post_content LIKE '%${searchTerm}%' AND post_status='publish';`
+    );
+    return rows;
+  } catch (error) {
+    console.error("Error fetching posts from getAllPosts:", error);
+    throw error;
+  }
+}
+
 export {
   getForums,
   getPostFromForum,
@@ -271,4 +284,5 @@ export {
   getTopicLevelData,
   getPostLevelData,
   getAllPosts,
+  getAllPostsBySearchTerm,
 };

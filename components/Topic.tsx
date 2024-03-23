@@ -32,7 +32,7 @@ export default function Topic({ post, forum }) {
       {data && (
         <li key={post.id}>
           <Link href={`/forums/${forum}/${post.ID}`}>{post.post_title}</Link>
-          started by {startedUser.user_nicename}
+          started by {startedUser?.user_nicename}
           <div>
             participatedUser: {participatedUser}
             <br />

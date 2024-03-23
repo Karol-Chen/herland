@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
+import Layout from "@/components/layout";
 import { useRouter } from "next/router";
-
-export default function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState("");
+import Link from "next/link";
+export default function SearchTerm() {
   const [searchResults, setSearchResults] = useState([]);
   const router = useRouter();
+  const { searchTerm } = router.query;
 
   useEffect(() => {
     async function searchPosts(searchTerm) {
@@ -21,21 +22,19 @@ export default function SearchBar() {
     }
   }, [searchTerm]);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    router.push(`/search/${searchTerm}`);
-  }
-
   return (
-    <div className="searchbar">
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button type="submit">Search</button>
-      </form>
-    </div>
+    <Layout>
+      {searchResults &&
+        searchResults.map((post) => {
+          return (
+            <>
+              <Link href="#" key={post.ID}>
+                {post.post_title}
+              </Link>
+              <br />
+            </>
+          );
+        })}
+    </Layout>
   );
 }
